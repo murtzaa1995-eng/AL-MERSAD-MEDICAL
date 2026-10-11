@@ -1,0 +1,51 @@
+:root{--navy:#0b2a55;--blue:#0d4aa8;--teal:#16978a;--purple:#6b4aa0;--dark:#0e2447;--ink:#1d2733}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif;color:var(--ink);background:#eef4fb;line-height:1.7}
+a{text-decoration:none;color:inherit}
+/* الترويسة */
+.hdr{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:8px 5vw;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);box-shadow:0 1px 10px rgba(11,42,85,.08)}
+.brand{display:flex;align-items:center;gap:12px;direction:ltr}.brand span{display:flex;flex-direction:column;line-height:1.25}
+.brand b{font-size:19px;letter-spacing:.5px;color:var(--navy)}.brand em{font-style:normal;font-size:17px;font-weight:700;color:var(--navy)}
+.hdr{direction:ltr}.hdr nav{display:flex;direction:rtl;gap:26px;flex-wrap:wrap}.hdr nav a{padding:6px 2px;font-weight:600;color:#25364d;border-bottom:3px solid transparent}
+.hdr nav a:hover,.hdr nav a.on{color:var(--blue);border-color:var(--blue)}
+/* الهيرو */
+.hero{position:relative;text-align:center;padding:48px 5vw 150px;color:var(--navy);
+ background:url(img/hero.jpg) center/cover,radial-gradient(1200px 400px at 85% 10%,#cfe6fb 0,transparent 60%),radial-gradient(900px 400px at 10% 20%,#d9e8f8 0,transparent 60%),linear-gradient(180deg,#dcecfa,#eef4fb)}
+.hero h1{margin:0;font-size:clamp(34px,5vw,58px);font-weight:900;color:#0b2a55}.hero h1 span{color:#0d4aa8}
+.hero p{margin:6px 0 24px;font-size:clamp(16px,2vw,22px);font-weight:600}
+.chips{list-style:none;margin:0;padding:0;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.chips li{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:14px;font-weight:600;width:130px}
+.chips li span{width:60px;height:60px;border-radius:16px;background:#fff;color:var(--blue);display:grid;place-items:center;box-shadow:0 4px 14px rgba(13,74,168,.15)}
+/* الكاردات */
+.cont{max-width:1280px;margin:-110px auto 0;padding:0 20px 40px;position:relative}
+.roles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;direction:ltr}
+.role{direction:rtl;background:rgba(255,255,255,.96);border-radius:16px;padding:10px 10px 18px;text-align:center;box-shadow:0 10px 30px rgba(11,42,85,.12);display:flex;flex-direction:column}
+.ph{position:relative;height:160px;border-radius:12px;margin-bottom:34px;background-size:cover;background-position:center}
+.r-patient .ph{background-image:url(img/patient.jpg),linear-gradient(135deg,#cfe3fb,#8fb8ec)}
+.r-hosp .ph{background-image:url(img/hospital.jpg),linear-gradient(135deg,#c9efe9,#7fd0c4)}
+.r-doc .ph{background-image:url(img/doctor.jpg),linear-gradient(135deg,#e0d7f2,#b09bdb)}
+.r-admin .ph{background-image:url(img/admin.jpg),linear-gradient(135deg,#cdd8ea,#7f95bd)}
+.badge{position:absolute;left:50%;bottom:-28px;transform:translateX(-50%);width:62px;height:62px;border-radius:16px;background:#fff;display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.r-patient .badge{color:var(--blue)}.r-hosp .badge{color:var(--teal)}.r-doc .badge{color:var(--purple)}.r-admin .badge{color:var(--dark)}
+.role h3{margin:6px 0 2px;font-size:20px;color:var(--navy)}.role p{margin:0 8px 14px;color:#4a5b70;font-size:14px;flex:1}
+.b{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 8px 0;padding:11px 12px;border-radius:9px;font-weight:700;color:#fff;transition:.15s}
+.b:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.b-blue{background:var(--blue)}.b-teal{background:var(--teal)}.b-purple{background:var(--purple)}.b-navy{background:var(--dark)}.b-light{background:#e3edf9;color:var(--navy)}
+/* الخدمات + الإحصائيات */
+.strip{display:grid;grid-template-columns:1.9fr 1fr;gap:16px;margin-top:16px;direction:ltr}
+.mods,.stats{direction:rtl;background:rgba(255,255,255,.96);border-radius:16px;padding:16px 10px;display:flex;justify-content:space-around;gap:6px;box-shadow:0 6px 20px rgba(11,42,85,.08)}
+.mods div,.stats div{display:flex;flex-direction:column;align-items:center;text-align:center;flex:1;padding:0 6px}
+.mods div+div,.stats div+div{border-right:1px solid #e1e8f1}
+.mods span{color:#2b5d94;margin-bottom:4px}.mods b{font-size:13px}.mods em,.stats em{font-style:normal;font-size:12px;color:#5b6b80}
+.stats span{color:var(--blue)}.stats b{font-size:26px;color:var(--navy);line-height:1.2}
+/* أقسام الصفحة */
+.sec{background:#fff;border-radius:16px;margin-top:22px;padding:24px 28px;box-shadow:0 4px 16px rgba(11,42,85,.06);scroll-margin-top:90px}
+.sec h2{margin:0 0 10px;color:var(--navy)}.pr{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.pr h4{margin:0 0 6px;color:var(--blue)}.pr p{display:flex;justify-content:space-between;margin:2px 0;border-bottom:1px dashed #e1e8f1;font-size:14px}
+details{border-bottom:1px solid #e8eef5;padding:8px 0}summary{cursor:pointer;font-weight:700}
+/* الفوتر */
+.ftr{display:flex;align-items:center;justify-content:space-around;flex-wrap:wrap;gap:20px;padding:26px 5vw;color:#fff;background:linear-gradient(90deg,#0a2447,#0f3a73)}
+.fb{display:flex;align-items:center;gap:14px;direction:ltr}.fb span{display:flex;flex-direction:column;line-height:1.3}.fb b{font-size:21px}.fb em{font-style:normal;font-size:19px;font-weight:700}
+.ftr ul{list-style:none;margin:0;padding:0;display:flex;gap:26px;flex-wrap:wrap}.ftr li{display:flex;flex-direction:column;align-items:center;font-size:13px;gap:4px}
+@media(max-width:1000px){.roles{grid-template-columns:repeat(2,1fr)}.strip{grid-template-columns:1fr}.hdr nav{display:none}.hdr{justify-content:center}}
+@media(max-width:560px){.roles{grid-template-columns:1fr}.mods{flex-wrap:wrap}.mods div{flex:0 0 30%;margin-bottom:8px}.mods div+div{border:0}.sec{padding:18px}}
