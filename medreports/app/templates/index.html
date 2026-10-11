@@ -1,5 +1,231 @@
-{% extends 'base.html' %}{% block content %}
-<div class="card hero"><h1>{{ PLATFORM }}</h1><p class="mut">ارفع فحصك من البيت، ويقرأه طبيب مختص، وتستلم التقرير بأمان.</p>
-<a class="btn" href="{{ url_for('public.order_new') }}">طلب قراءة فحص</a>
-<a class="btn sec" href="{{ url_for('public.results') }}">استلام النتيجة</a></div>
-<p class="hint" style="text-align:center">المستشفيات والمراكز والأطباء والإدارة: <a href="{{ url_for('public.login') }}">تسجيل الدخول</a></p>{% endblock %}
+
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+.mersad-home {
+  direction: rtl;
+  font-family: Tahoma, Arial, sans-serif;
+  color: #16344a;
+}
+.mersad-hero {
+  background: linear-gradient(125deg, #083b54, #086b83);
+  color: white;
+  border-radius: 22px;
+  padding: 48px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.mersad-logo {
+  width: 78px;
+  height: 78px;
+  border-radius: 22px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 39px;
+  margin: 0 auto 20px;
+}
+.mersad-hero h1 {
+  color: white;
+  font-size: clamp(26px, 4vw, 43px);
+  margin: 0 0 12px;
+}
+.mersad-hero p {
+  color: #d9edf5;
+  font-size: 17px;
+  line-height: 1.9;
+}
+.mersad-en {
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: #b5e7ef;
+}
+.mersad-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 28px;
+}
+.mersad-home .mersad-button {
+  display: inline-block;
+  text-decoration: none;
+  background: white;
+  color: #07516b;
+  padding: 14px 25px;
+  border-radius: 12px;
+  font-weight: bold;
+  transition: .2s;
+}
+.mersad-home .mersad-button.outline {
+  background: transparent;
+  border: 1px solid #b7e4f0;
+  color: white;
+}
+.mersad-home .mersad-button:hover {
+  transform: translateY(-3px);
+}
+.mersad-section {
+  text-align: center;
+  margin: 43px 0 24px;
+}
+.mersad-section h2 {
+  font-size: 25px;
+  color: #103c53;
+}
+.mersad-section p {
+  color: #70818c;
+}
+.mersad-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 17px;
+}
+.mersad-card {
+  background: white;
+  border: 1px solid #e0e9ef;
+  border-radius: 18px;
+  padding: 30px 17px;
+  text-align: center;
+  box-shadow: 0 8px 28px rgba(10,52,75,.06);
+}
+.mersad-icon {
+  width: 67px;
+  height: 67px;
+  margin: 0 auto 18px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background: #e8f5f9;
+  font-size: 30px;
+}
+.mersad-card h3 {
+  margin: 0 0 10px;
+  font-size: 19px;
+}
+.mersad-card p {
+  color: #73828c;
+  font-size: 13px;
+  min-height: 53px;
+  line-height: 1.8;
+}
+.mersad-card a {
+  display: block;
+  background: #08708b;
+  color: white;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-top: 18px;
+}
+.mersad-card a:hover {
+  background: #064f65;
+}
+.mersad-features {
+  margin-top: 38px;
+  background: #edf7fa;
+  border-radius: 18px;
+  padding: 25px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+  text-align: center;
+  color: #18516a;
+  font-weight: bold;
+}
+.mersad-footer {
+  text-align: center;
+  color: #84919a;
+  padding: 32px 10px 12px;
+  font-size: 13px;
+}
+@media(max-width: 900px) {
+  .mersad-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 550px) {
+  .mersad-grid { grid-template-columns: 1fr; }
+  .mersad-hero { padding: 36px 17px; }
+  .mersad-card p { min-height: 0; }
+}
+</style>
+
+<div class="mersad-home">
+
+  <section class="mersad-hero">
+    <div class="mersad-logo">✚</div>
+    <div class="mersad-en">AL-MERSAD MEDICAL</div>
+    <h1>منصة المرصاد الطبية</h1>
+    <p>منصة متكاملة لإدارة الفحوصات والتقارير الطبية</p>
+    <p>
+      من طلب قراءة الفحص إلى استلام التقرير،
+      نربط المرضى بالمستشفيات والمراكز والأطباء
+      عبر تجربة رقمية سهلة وآمنة.
+    </p>
+    <div class="mersad-actions">
+      <a class="mersad-button" href="{{ url_for('public.order_new') }}">
+        ابدأ طلب فحصك
+      </a>
+      <a class="mersad-button outline" href="{{ url_for('public.results') }}">
+        استلام النتيجة
+      </a>
+    </div>
+  </section>
+
+  <div class="mersad-section">
+    <h2>بوابات الدخول إلى المنصة</h2>
+    <p>اختر القسم المناسب للمتابعة</p>
+  </div>
+
+  <section class="mersad-grid">
+
+    <div class="mersad-card">
+      <div class="mersad-icon">👤</div>
+      <h3>بوابة المرضى</h3>
+      <p>رفع الفحوصات الطبية وطلب قراءة التقارير ومتابعة النتائج.</p>
+      <a href="{{ url_for('public.order_new') }}">دخول المرضى</a>
+    </div>
+
+    <div class="mersad-card">
+      <div class="mersad-icon">🏥</div>
+      <h3>المستشفيات والمراكز</h3>
+      <p>إدارة الحجوزات والفحوصات والتقارير والجرد الشهري.</p>
+      <a href="{{ url_for('public.login') }}">دخول المستشفى</a>
+    </div>
+
+    <div class="mersad-card">
+      <div class="mersad-icon">🩺</div>
+      <h3>بوابة الأطباء</h3>
+      <p>استلام الفحوصات الطبية وقراءتها وكتابة التقارير.</p>
+      <a href="{{ url_for('public.login') }}">دخول الأطباء</a>
+    </div>
+
+    <div class="mersad-card">
+      <div class="mersad-icon">⚙️</div>
+      <h3>إدارة المنصة</h3>
+      <p>إدارة المستشفيات والأطباء والأسعار والحسابات.</p>
+      <a href="{{ url_for('public.login') }}">دخول الإدارة</a>
+    </div>
+
+  </section>
+
+  <section class="mersad-features">
+    <div>🔒 خصوصية وأمان</div>
+    <div>📋 تقارير طبية منظمة</div>
+    <div>🏥 ربط المراكز بالأطباء</div>
+    <div>📱 متابعة النتائج إلكترونياً</div>
+  </section>
+
+  <footer class="mersad-footer">
+    منصة المرصاد الطبية | AL-MERSAD MEDICAL
+    <p>جميع الحقوق محفوظة © 2026</p>
+  </footer>
+
+</div>
+
+{% endblock %}
