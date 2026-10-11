@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block content %}<h1>لوحة الإدارة</h1>
+<div class="grid"><div class="stat"><b>{{ tot['n'] }}</b><span>تقارير مكتملة ({{ month }})</span></div><div class="stat"><b>{{ tot['rev']|money }}</b><span>الإيرادات</span></div>
+<div class="stat"><b>{{ tot['dues']|money }}</b><span>مستحقات الأطباء</span></div><div class="stat"><b>{{ (tot['rev']-tot['dues'])|money }}</b><span>الصافي</span></div>
+<div class="stat"><b>{{ hospitals }}</b><span>مستشفى/مركز</span></div><div class="stat"><b>{{ doctors }}</b><span>طبيب</span></div></div>
+<h2>الطلبات حسب الحالة</h2><div class="grid">{% for k,v in statuses.items() %}<div class="stat"><b>{{ counts.get(k,0) }}</b><span>{{ v }}</span></div>{% endfor %}</div>{% endblock %}

@@ -1,0 +1,2 @@
+{% extends 'base.html' %}{% block content %}<h1>سجل التدقيق</h1><div class="scroll"><table><tr><th>الوقت</th><th>المستخدم</th><th>الدور</th><th>الإجراء</th><th>الكيان</th><th>تفاصيل</th><th>IP</th></tr>
+{% for a in rows %}<tr><td>{{ a['created_at'] }}</td><td>{{ a['uname'] or '—' }}</td><td>{{ a['role'] }}</td><td>{{ a['action'] }}</td><td>{{ a['entity'] or '' }} {{ a['entity_id'] or '' }}</td><td>{{ a['detail'] or '' }}</td><td>{{ a['ip'] }}</td></tr>{% endfor %}</table></div>{% endblock %}

@@ -1,0 +1,3 @@
+{% extends 'base.html' %}{% block content %}<h1>الأطباء</h1><p><a class="btn" href="{{ url_for('admin.doctor_form') }}">إضافة طبيب</a></p>
+<div class="scroll"><table><tr><th>الاسم</th><th>الاختصاص</th><th>البريد</th><th>الموبايل</th><th>الحالة</th><th></th></tr>
+{% for r in rows %}<tr><td>{{ r['name'] }}</td><td>{{ r['specialty'] }}</td><td>{{ r['email'] }}</td><td>{{ r['phone'] }}</td><td>{{ 'مفعّل' if r['active'] else 'موقوف' }}</td><td><a class="btn sm sec" href="{{ url_for('admin.doctor_form', did=r['id']) }}">تعديل</a></td></tr>{% endfor %}</table></div>{% endblock %}

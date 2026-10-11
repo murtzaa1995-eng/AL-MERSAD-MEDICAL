@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% block content %}<h1>طلبك: {{ o['ref'] }}</h1>
+<div class="card"><p><b>{{ o['patient_name'] }}</b> — {{ o['exam_name'] }}</p><p>الحالة: {{ m.badge(o['status']) }}</p>
+{% if o['status']=='pending_payment' %}<p>المبلغ المطلوب: <span class="price">{{ o['price']|money }}</span></p>
+<form method="post" action="{{ url_for('public.order_pay', token=o['token']) }}">{{ m.csrf() }}<button class="btn">ادفع الآن</button></form>
+<p class="hint">يتفعل زر إرسال الطلب بعد تأكيد الدفع.</p>
+{% elif o['status']=='paid' %}<p>تم الدفع. اضغط لإرسال الطلب للطبيب المختص.</p>
+<form method="post" action="{{ url_for('public.order_send', token=o['token']) }}">{{ m.csrf() }}<button class="btn ok">إرسال الطلب</button></form>
+{% else %}<p><a class="btn" href="{{ url_for('public.order_sheet', token=o['token']) }}">عرض / طباعة ورقة الاستلام</a></p>
+<div class="qr">{% if qr %}{{ qr|safe }}{% endif %}</div>
+<p class="hint">احتفظ بهذه الصفحة أو بالورقة المطبوعة. لن يظهر التقرير إلا بعد رفع الطبيب له وتحقق الهوية برمز يصل لموبايلك.</p>{% endif %}</div>{% endblock %}

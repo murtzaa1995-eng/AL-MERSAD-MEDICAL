@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block content %}<h1>{{ o['patient_name'] }} — {{ o['ref'] }}</h1><p>{{ m.badge(o['status']) }}</p>
+<form method="post" enctype="multipart/form-data" class="card">{{ m.csrf() }}<fieldset {{ '' if editable else 'disabled' }} style="border:0;padding:0">
+<div class="row"><div>{{ m.field('device','نوع جهاز التصوير',o['device']) }}</div><div><label>نوع الفحص</label>{{ m.modality_select() }}</div>
+<div><label for="exam_type_id">اسم الفحص / منطقة الجسم</label><select name="exam_type_id" id="exam_type_id"><option value="">اختر</option>
+{% for e in types %}<option value="{{ e['id'] }}" data-modality="{{ e['modality'] }}" data-price="{{ e['price'] }}" {{ 'selected' if o['exam_type_id']==e['id'] }}>{{ MODALITIES[e['modality']] }} - {{ e['region'] }}</option>{% endfor %}</select></div></div>
+<div class="row"><div>{{ m.field('protocol','البروتوكول',o['protocol']) }}</div><div>{{ m.field('contrast','الصبغة',o['contrast']) }}</div><div>{{ m.field('referring_doctor','الطبيب المُرسل (إن وجد)',o['referring_doctor']) }}</div></div>
+<p>سعر الفحص لمستشفاكم: <span class="price" id="price">—</span> {{ config.CURRENCY }}</p>
+<label>المعلومات السريرية</label><textarea name="clinical_info">{{ o['clinical_info'] or '' }}</textarea>
+<label>ورقة طلب الفحص</label><input type="file" name="request_sheet"><label>صور الفحص والملفات</label><input type="file" name="images" multiple>
+<label>فحوصات سابقة (إن وجدت)</label><input type="file" name="previous" multiple></fieldset>
+{% if editable %}<p><button class="btn sec" name="action" value="save">حفظ</button> <button class="btn ok" name="action" value="send">إرسال للطبيب المختص</button></p>{% endif %}</form>
+<h2>الملفات</h2><div class="card">{% for f in files %}<div><a href="{{ url_for('common.file', fid=f['id']) }}" target="_blank">{{ f['original_name'] }}</a> <span class="hint">({{ {'request_sheet':'ورقة الطلب','image':'صورة','previous':'سابق'}[f['kind']] }})</span></div>{% else %}<span class="mut">لا توجد ملفات.</span>{% endfor %}</div>{% endblock %}

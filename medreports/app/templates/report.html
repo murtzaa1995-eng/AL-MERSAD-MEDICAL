@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% block content %}
+<div class="bar noprint"><button class="btn" data-print>تنزيل PDF / طباعة</button>
+{% if not public %}{% for v in versions %}<a class="btn sec sm" href="?v={{ v['version'] }}">نسخة {{ v['version'] }}</a>{% endfor %}{% endif %}
+{% if public %}<span class="hint">تنتهي جلسة العرض بعد 10 دقائق ويلزم تحقق جديد. التقرير لا يُحذف.</span>{% endif %}</div>
+<div class="paper"><div class="hd">{% if h and h['logo'] %}<img src="{{ url_for('common.media', name=h['logo']) }}" alt="">{% endif %}
+<div><h1 style="margin:0">{{ h['name'] if h else PLATFORM }}</h1><div class="mut">{{ h['address'] if h else '' }}</div>{% if h and h['tpl_header'] %}<div class="pre">{{ h['tpl_header'] }}</div>{% endif %}</div></div>
+<table><tr><th>المريض</th><td>{{ o['patient_name'] }}</td><th>العمر / الجنس</th><td>{{ o['age'] or '' }} {{ o['sex'] or '' }}</td></tr>
+<tr><th>الفحص</th><td>{{ o['exam_name'] }}</td><th>الرقم المرجعي</th><td>{{ o['ref'] }}</td></tr>
+{% if o['clinical_info'] %}<tr><th>المعلومات السريرية</th><td colspan="3">{{ o['clinical_info'] }}</td></tr>{% endif %}</table>
+<h2>التقرير</h2><pre>{{ r['body'] if r else '' }}</pre>
+{% if r and r['version']>1 %}<p class="hint">نسخة مصححة رقم {{ r['version'] }} — {{ r['created_at'] }}{% if r['reason'] and not public %} — السبب: {{ r['reason'] }}{% endif %}</p>{% endif %}
+<div class="sign"><div>{% if d %}<b>{{ d['name'] }}</b><div class="mut">{{ d['specialty'] or '' }}</div>{% if d['signature'] %}<img src="{{ url_for('common.media', name=d['signature']) }}" alt="">{% endif %}{% endif %}</div>
+<div>{% if d and d['stamp'] %}<img src="{{ url_for('common.media', name=d['stamp']) }}" alt="">{% endif %}</div></div>
+{% if h and h['tpl_footer'] %}<hr><div class="pre hint">{{ h['tpl_footer'] }}</div>{% endif %}</div>{% endblock %}

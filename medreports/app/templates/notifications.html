@@ -1,0 +1,2 @@
+{% extends 'base.html' %}{% block content %}<h1>الإشعارات</h1>
+{% for r in rows %}<div class="card">{% if r['link'] %}<a href="{{ r['link'] }}">{{ r['text'] }}</a>{% else %}{{ r['text'] }}{% endif %}<div class="hint">{{ r['created_at'] }}</div></div>{% else %}<p class="mut">لا توجد إشعارات.</p>{% endfor %}{% endblock %}

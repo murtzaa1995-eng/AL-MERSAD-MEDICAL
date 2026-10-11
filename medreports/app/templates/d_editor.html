@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block content %}<h1>{{ 'تصحيح موثق للتقرير' if correcting else 'كتابة التقرير' }} — {{ o['patient_name'] }}</h1>
+<p class="mut">{{ o['exam_name'] }} | قالب: {{ hosp['name'] if hosp else 'المنصة' }}{% if not d['signature'] or not d['stamp'] %} | <b>تنبيه: الختم أو التوقيع غير مرفوع، راجع الإدارة.</b>{% endif %}</p>
+<form method="post" enctype="multipart/form-data" class="card">{{ m.csrf() }}
+<label>نص التقرير</label><textarea name="body" style="min-height:340px">{{ body }}</textarea>
+{% if correcting %}<label>سبب التصحيح *</label><input name="reason"><div class="hint">تُحفظ النسخة السابقة ويُسجَّل التصحيح في سجل التدقيق.</div>{% endif %}
+<div class="bar"><button class="btn sec" name="action" value="save">حفظ مسودة</button><button class="btn ok" name="action" value="sign" data-c>{{ 'اعتماد التصحيح' if correcting else 'اعتماد وإرسال' }}</button>
+<a class="btn sec" href="{{ url_for('doctor.order', oid=o['id']) }}">رجوع</a></div>
+<hr><label>أو استيراد من ملف Word (.docx)</label><input type="file" name="docx" accept=".docx"><p><button class="btn sec sm" name="action" value="import">استيراد إلى المحرر</button></p></form>{% endblock %}

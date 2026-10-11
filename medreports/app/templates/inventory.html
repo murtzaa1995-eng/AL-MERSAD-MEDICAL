@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block content %}<h1>{{ title }}</h1>
+<form method="get" class="bar"><input type="month" name="month" value="{{ month }}" style="width:auto"><button class="btn sm">عرض</button></form>
+<div class="grid"><div class="stat"><b>{{ s['count'] }}</b><span>عدد الفحوصات/التقارير في الشهر</span></div><div class="stat"><b>{{ s['month_total']|money }}</b><span>مبلغ الشهر</span></div>
+<div class="stat"><b>{{ s['paid']|money }}</b><span>المدفوع (إجمالي)</span></div><div class="stat"><b>{{ s['balance']|money }}</b><span>المتبقي في الحساب</span></div></div>
+<h2>حسب نوع الفحص</h2><div class="scroll"><table><tr><th>الفحص</th><th>العدد</th><th>المبلغ</th></tr>
+{% for r in rows %}<tr><td>{{ r['name'] }}</td><td>{{ r['n'] }}</td><td>{{ r['total']|money }}</td></tr>{% else %}<tr><td colspan="3" class="mut">لا توجد بيانات في هذا الشهر.</td></tr>{% endfor %}</table></div>{% endblock %}

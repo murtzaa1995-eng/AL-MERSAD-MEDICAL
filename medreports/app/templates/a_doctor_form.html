@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% block content %}<h1>{{ 'تعديل طبيب' if d else 'إضافة طبيب' }}</h1>
+<form method="post" enctype="multipart/form-data" class="card">{{ m.csrf() }}
+<div class="row"><div>{{ m.field('name','اسم الطبيب',v.get('name'),'text',true) }}</div><div>{{ m.field('specialty','الاختصاص',v.get('specialty')) }}</div></div>
+<div class="row"><div>{{ m.field('phone','رقم الموبايل',v.get('phone')) }}</div><div>{{ m.field('email','البريد الإلكتروني (بيانات الدخول)',v.get('email'),'email',true) }}</div>
+<div>{{ m.field('password','كلمة السر','','password',not d,'عند التعديل: اتركها فارغة لعدم التغيير') }}</div></div>
+<div class="row"><div><label>الختم</label>{% if d and d['stamp'] %}<img src="{{ url_for('common.media', name=d['stamp']) }}" style="max-height:60px"><br>{% endif %}<input type="file" name="stamp" accept="image/*"></div>
+<div><label>التوقيع</label>{% if d and d['signature'] %}<img src="{{ url_for('common.media', name=d['signature']) }}" style="max-height:60px"><br>{% endif %}<input type="file" name="signature" accept="image/*"></div></div>
+<label><input type="checkbox" name="active" {{ 'checked' if (not d) or v.get('active') }}> الحساب مفعّل</label>
+<label><input type="checkbox" name="accept_direct" {{ 'checked' if v.get('accept_direct') }}> يقرأ فحوصات المرضى المباشرين (من الموقع)</label>
+<h2>المستشفيات المسموح له بها</h2>{% for h in hospitals %}<label style="font-weight:400"><input type="checkbox" name="hospitals" value="{{ h['id'] }}" {{ 'checked' if h['id'] in my_h }}> {{ h['name'] }}</label>{% endfor %}
+<h2>أنواع الفحوصات وسعر كل نوع (أجر الطبيب)</h2>
+<div class="scroll"><table><tr><th>يقرأ</th><th>الفحص</th><th>أجر الطبيب</th></tr>
+{% for e in types %}<tr><td><input type="checkbox" name="allow_{{ e['id'] }}" {{ 'checked' if e['id'] in prices }}></td><td>{{ MODALITIES[e['modality']] }} - {{ e['region'] }}</td><td><input name="price_{{ e['id'] }}" type="number" min="0" value="{{ prices.get(e['id'],'') }}"></td></tr>{% endfor %}</table></div>
+<p><button class="btn">حفظ</button></p></form>{% endblock %}

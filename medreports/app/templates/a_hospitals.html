@@ -1,0 +1,3 @@
+{% extends 'base.html' %}{% block content %}<h1>المستشفيات والمراكز</h1><p><a class="btn" href="{{ url_for('admin.hospital_form') }}">إضافة مستشفى/مركز</a></p>
+<div class="scroll"><table><tr><th>الاسم</th><th>البريد</th><th>الموبايل</th><th>نشر التقارير</th><th>الحالة</th><th></th></tr>
+{% for r in rows %}<tr><td>{{ r['name'] }}</td><td>{{ r['email'] }}</td><td>{{ r['phone'] }}</td><td>{{ 'بعد موافقة المستشفى' if r['publish_mode']=='hospital_approval' else 'تلقائي' }}</td><td>{{ 'مفعّل' if r['active'] else 'موقوف' }}</td><td><a class="btn sm sec" href="{{ url_for('admin.hospital_form', hid=r['id']) }}">تعديل</a></td></tr>{% endfor %}</table></div>{% endblock %}

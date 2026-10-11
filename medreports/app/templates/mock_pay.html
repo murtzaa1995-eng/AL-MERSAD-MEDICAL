@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block content %}<div class="card"><h1>بوابة دفع تجريبية</h1>
+<p class="flash error">هذه صفحة تجريبية للتطوير فقط — لا يتم سحب أي مبلغ. استبدلها ببوابة دفع حقيقية قبل الإطلاق.</p>
+<p>الطلب {{ o['ref'] }} — المبلغ <span class="price">{{ o['price']|money }}</span></p>
+<form method="post" action="{{ url_for('public.mock_pay_confirm', token=o['token']) }}">{{ m.csrf() }}<button class="btn ok">تأكيد الدفع (تجريبي)</button></form></div>{% endblock %}

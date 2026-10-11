@@ -1,0 +1,10 @@
+{% macro csrf() %}<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{% endmacro %}
+{% macro badge(s) %}<span class="badge s-{{ s }}">{{ s|status }}</span>{% endmacro %}
+{% macro field(name,label,val='',type='text',req=false,hint='') %}
+<label for="{{ name }}">{{ label }}{% if req %} *{% endif %}</label>
+<input id="{{ name }}" name="{{ name }}" type="{{ type }}" value="{{ val or '' }}" {% if req %}required{% endif %} {% if type=='password' %}autocomplete="new-password"{% endif %}>
+{% if hint %}<div class="hint">{{ hint }}</div>{% endif %}
+{% endmacro %}
+{% macro modality_select(id='modality') %}
+<select id="{{ id }}"><option value="">كل الأنواع</option>{% for k,v in MODALITIES.items() %}<option value="{{ k }}">{{ v }}</option>{% endfor %}</select>
+{% endmacro %}

@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block content %}<h1>{{ d['name'] }}</h1>
+<div class="grid"><div class="stat"><b>{{ waiting }}</b><span>فحوصات بانتظار القراءة</span></div><div class="stat"><b>{{ reading }}</b><span>قيد القراءة عندي</span></div>
+<div class="stat"><b>{{ s['count'] }}</b><span>تقارير هذا الشهر</span></div><div class="stat"><b>{{ s['balance']|money }}</b><span>مستحقاتي المتبقية</span></div></div>
+<p><a class="btn" href="{{ url_for('doctor.worklist') }}">الفحوصات الواردة</a></p>{% endblock %}

@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block content %}<h1>فحوصاتي</h1>
+<form method="get" class="bar"><select name="status" onchange="this.form.submit()" style="width:auto"><option value="">كل الحالات</option>{% for k,v in statuses.items() %}<option value="{{ k }}" {{ 'selected' if k==st }}>{{ v }}</option>{% endfor %}</select></form>
+<div class="scroll"><table><tr><th>المرجع</th><th>المريض</th><th>الفحص</th><th>الحالة</th><th>السعر</th><th></th></tr>
+{% for o in rows %}<tr><td>{{ o['ref'] }}</td><td>{{ o['patient_name'] }}</td><td>{{ o['exam_name'] or '—' }}</td><td>{{ m.badge(o['status']) }}</td><td>{{ o['price']|money if o['price'] else '—' }}</td>
+<td><a class="btn sm sec" href="{{ url_for('hospital.exam', oid=o['id']) }}">فتح</a></td></tr>{% else %}<tr><td colspan="6" class="mut">لا توجد فحوصات.</td></tr>{% endfor %}</table></div>{% endblock %}

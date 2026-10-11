@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block content %}<h1>{{ h['name'] }}</h1>
+<div class="grid">{% for k in ['booked','awaiting_upload','awaiting_doctor','reading','completed','delivered'] %}<div class="stat"><b>{{ counts.get(k,0) }}</b><span>{{ order_status[k] }}</span></div>{% endfor %}</div>
+<h2>آخر الحالات</h2><div class="scroll"><table><tr><th>المرجع</th><th>المريض</th><th>الحالة</th><th>التاريخ</th></tr>
+{% for o in latest %}<tr><td><a href="{{ url_for('hospital.exam', oid=o['id']) }}">{{ o['ref'] }}</a></td><td>{{ o['patient_name'] }}</td><td>{{ m.badge(o['status']) }}</td><td>{{ o['created_at'] }}</td></tr>{% else %}<tr><td colspan="4" class="mut">لا توجد حالات بعد.</td></tr>{% endfor %}</table></div>{% endblock %}

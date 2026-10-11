@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block content %}
+<div class="card hero"><h1>{{ PLATFORM }}</h1><p class="mut">ارفع فحصك من البيت، ويقرأه طبيب مختص، وتستلم التقرير بأمان.</p>
+<a class="btn" href="{{ url_for('public.order_new') }}">طلب قراءة فحص</a>
+<a class="btn sec" href="{{ url_for('public.results') }}">استلام النتيجة</a></div>
+<p class="hint" style="text-align:center">المستشفيات والمراكز والأطباء والإدارة: <a href="{{ url_for('public.login') }}">تسجيل الدخول</a></p>{% endblock %}

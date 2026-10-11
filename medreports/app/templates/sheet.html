@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block content %}
+<div class="bar noprint"><button class="btn" data-print>طباعة / حفظ PDF</button>{% if me %}<a class="btn sec" href="{{ url_for('hospital.bookings') }}">رجوع</a>{% endif %}</div>
+<div class="paper"><div class="hd">{% if h and h['logo'] %}<img src="{{ url_for('common.media', name=h['logo']) }}" alt="">{% endif %}
+<div><h1 style="margin:0">{{ h['name'] if h else PLATFORM }}</h1><div class="mut">{{ h['address'] if h else '' }} {{ h['phone'] if h else '' }}</div></div></div>
+<h2>{{ 'ورقة حجز' if o['source']=='hospital' else 'ورقة طلب فحص' }}</h2>
+<table><tr><th>الرقم المرجعي</th><td><b>{{ o['ref'] }}</b></td><th>التاريخ</th><td>{{ o['created_at'] }}</td></tr>
+<tr><th>اسم المريض</th><td>{{ o['patient_name'] }}</td><th>الموبايل</th><td>{{ o['phone'] }}</td></tr>
+{% if o['exam_name'] %}<tr><th>الفحص</th><td colspan="3">{{ o['exam_name'] }}</td></tr>{% endif %}</table>
+<div style="display:flex;gap:20px;align-items:center;margin-top:18px"><div class="qr">{% if qr %}{{ qr|safe }}{% else %}<div class="hint">{{ url }}</div>{% endif %}</div>
+<div><h2 style="margin-top:0">تعليمات استلام النتيجة</h2>
+<div class="pre">{{ (h['receive_notes'] if h and h['receive_notes'] else 'امسح رمز QR أو ادخل صفحة النتائج وأدخل رقم موبايلك، ثم أدخل رمز التحقق الذي يصلك.') }}</div>
+<p class="hint">لا يظهر التقرير إلا بعد رفع الطبيب له والتحقق برمز يصل لموبايلك.</p></div></div></div>{% endblock %}

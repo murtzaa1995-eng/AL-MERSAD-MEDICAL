@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% block content %}<h1>طلب قراءة فحص</h1>
+<form method="post" enctype="multipart/form-data" class="card">{{ m.csrf() }}
+{{ m.field('name','الاسم الثلاثي',f.get('name'),'text',true) }}
+<div class="row"><div>{{ m.field('age','العمر',f.get('age'),'number',true) }}</div>
+<div><label>الجنس *</label><select name="sex" required><option value="">اختر</option><option {{ 'selected' if f.get('sex')=='ذكر' }}>ذكر</option><option {{ 'selected' if f.get('sex')=='أنثى' }}>أنثى</option></select></div></div>
+{{ m.field('phone','رقم الموبايل',f.get('phone'),'tel',true,'سيصلك رمز تحقق على هذا الرقم عند استلام النتيجة') }}
+<div class="row"><div><label>نوع الفحص *</label>{{ m.modality_select() }}</div>
+<div><label for="exam_type_id">المنطقة المطلوبة *</label><select name="exam_type_id" id="exam_type_id" required><option value="">اختر</option>
+{% for e in exams %}<option value="{{ e['id'] }}" data-modality="{{ e['modality'] }}" data-price="{{ e['base_price'] }}" {{ 'selected' if f.get('exam_type_id')|string==e['id']|string }}>{{ MODALITIES[e['modality']] }} - {{ e['region'] }}</option>{% endfor %}</select></div></div>
+<label>ورقة طلب الفحص *</label><input type="file" name="request_sheet" accept=".png,.jpg,.jpeg,.pdf,.webp" required>
+<label>صور الفحص أو ملفاته الطبية *</label><input type="file" name="images" multiple required><div class="hint">PNG, JPG, PDF, DICOM (.dcm)</div>
+<label for="clinical_info">معلومات سريرية (إن وجدت)</label><textarea name="clinical_info" id="clinical_info">{{ f.get('clinical_info','') }}</textarea>
+<p>المبلغ: <span class="price" id="price">—</span> {{ config.CURRENCY }}</p>
+<button class="btn">متابعة إلى الدفع</button></form>{% endblock %}

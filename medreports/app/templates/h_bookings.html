@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block content %}<h1>الحجوزات</h1><p><a class="btn" href="{{ url_for('hospital.booking_new') }}">حجز جديد</a></p>
+<div class="scroll"><table><tr><th>المرجع</th><th>المريض</th><th>الموبايل</th><th>التاريخ</th><th></th></tr>
+{% for o in rows %}<tr><td>{{ o['ref'] }}</td><td>{{ o['patient_name'] }}</td><td>{{ o['phone'] }}</td><td>{{ o['created_at'] }}</td>
+<td><a class="btn sm" href="{{ url_for('hospital.exam', oid=o['id']) }}">إكمال الفحص</a> <a class="btn sm sec" href="{{ url_for('hospital.booking_sheet', oid=o['id']) }}">ورقة الحجز</a></td></tr>{% else %}<tr><td colspan="5" class="mut">لا توجد حجوزات.</td></tr>{% endfor %}</table></div>{% endblock %}

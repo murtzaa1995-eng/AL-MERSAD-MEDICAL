@@ -1,0 +1,3 @@
+{% extends 'base.html' %}{% block content %}<h1>فحوصاتي</h1>
+<div class="scroll"><table><tr><th>المرجع</th><th>الفحص</th><th>المصدر</th><th>الحالة</th><th></th></tr>
+{% for o in rows %}<tr><td>{{ o['ref'] }}</td><td>{{ o['exam_name'] }}</td><td>{{ o['hospital_name'] or 'مريض مباشر' }}</td><td>{{ m.badge(o['status']) }}</td><td><a class="btn sm sec" href="{{ url_for('doctor.order', oid=o['id']) }}">فتح</a></td></tr>{% else %}<tr><td colspan="5" class="mut">لا توجد فحوصات.</td></tr>{% endfor %}</table></div>{% endblock %}

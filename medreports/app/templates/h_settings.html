@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block content %}<h1>إعدادات المستشفى</h1>
+<form method="post" enctype="multipart/form-data" class="card">{{ m.csrf() }}<p class="mut">الاسم والأسعار وقالب التقرير تُدار من الإدارة.</p>
+{{ m.field('phone','رقم الموبايل',h['phone']) }}{{ m.field('address','العنوان',h['address']) }}
+<label>تعليمات استلام النتيجة (تظهر في ورقة الحجز)</label><textarea name="receive_notes">{{ h['receive_notes'] or '' }}</textarea>
+<label>الشعار</label>{% if h['logo'] %}<img src="{{ url_for('common.media', name=h['logo']) }}" style="max-height:60px"><br>{% endif %}<input type="file" name="logo" accept="image/*">
+<p><button class="btn">حفظ</button> <a class="btn sec" href="{{ url_for('common.account') }}">تغيير كلمة السر</a></p></form>{% endblock %}

@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block content %}<h1>التقارير المكتملة</h1>
+<div class="scroll"><table><tr><th>المرجع</th><th>المريض</th><th>الفحص</th><th>اكتمل</th><th>النشر للمريض</th><th></th></tr>
+{% for o in rows %}<tr><td>{{ o['ref'] }}</td><td>{{ o['patient_name'] }}</td><td>{{ o['exam_name'] }}</td><td>{{ o['completed_at'] }}</td><td>{{ 'منشور' if o['published'] else 'بانتظار موافقتكم' }}</td>
+<td><a class="btn sm sec" href="{{ url_for('common.report', oid=o['id']) }}">عرض / طباعة</a>
+{% if not o['published'] %}<form method="post" action="{{ url_for('hospital.approve', oid=o['id']) }}" style="display:inline" data-confirm="اعتماد نشر التقرير للمريض؟">{{ m.csrf() }}<button class="btn sm ok">اعتماد النشر</button></form>{% endif %}</td></tr>{% else %}<tr><td colspan="6" class="mut">لا توجد تقارير.</td></tr>{% endfor %}</table></div>{% endblock %}

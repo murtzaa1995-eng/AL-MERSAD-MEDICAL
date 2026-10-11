@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block content %}<h1>كل الطلبات</h1>
+<form method="get" class="bar"><input name="q" value="{{ q }}" placeholder="مرجع / اسم / موبايل" style="width:220px"><select name="status" style="width:auto"><option value="">كل الحالات</option>{% for k,v in statuses.items() %}<option value="{{ k }}" {{ 'selected' if k==st }}>{{ v }}</option>{% endfor %}</select><button class="btn sm">بحث</button></form>
+<div class="scroll"><table><tr><th>المرجع</th><th>المريض</th><th>المصدر</th><th>الفحص</th><th>الحالة</th><th>السعر</th><th></th></tr>
+{% for o in rows %}<tr><td>{{ o['ref'] }}</td><td>{{ o['patient_name'] }}</td><td>{{ o['hospital_name'] or 'مريض مباشر' }}</td><td>{{ o['exam_name'] or '—' }}</td><td>{{ m.badge(o['status']) }}</td><td>{{ o['price']|money }}</td><td><a class="btn sm sec" href="{{ url_for('admin.order', oid=o['id']) }}">تفاصيل</a></td></tr>{% endfor %}</table></div>{% endblock %}

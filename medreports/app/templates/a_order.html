@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block content %}<h1>{{ o['ref'] }} — {{ o['patient_name'] }}</h1>
+<div class="card"><p>{{ m.badge(o['status']) }} | المصدر: {{ o['hospital_name'] or 'مريض مباشر' }} | الطبيب: {{ o['doctor_name'] or '—' }} | الفحص: {{ o['exam_name'] or '—' }}</p>
+<p>السعر: {{ o['price']|money }} | أجر الطبيب: {{ o['doctor_fee']|money }} | منشور للمريض: {{ 'نعم' if o['published'] else 'لا' }}</p>
+{% if o['status'] in ('completed','delivered') %}<a class="btn" href="{{ url_for('common.report', oid=o['id']) }}">التقرير</a>{% endif %}</div>
+<h2>الملفات</h2><div class="card">{% for f in files %}<div><a href="{{ url_for('common.file', fid=f['id']) }}">{{ f['original_name'] }}</a></div>{% else %}—{% endfor %}</div>
+<h2>المدفوعات</h2><div class="card">{% for p in pays %}<div>{{ p['amount']|money }} — {{ p['provider'] }} — {{ p['created_at'] }}</div>{% else %}—{% endfor %}</div>
+<h2>سجل التدقيق</h2><div class="scroll"><table><tr><th>الوقت</th><th>الدور</th><th>الإجراء</th><th>تفاصيل</th></tr>{% for a in log %}<tr><td>{{ a['created_at'] }}</td><td>{{ a['role'] }}</td><td>{{ a['action'] }}</td><td>{{ a['detail'] or '' }}</td></tr>{% endfor %}</table></div>{% endblock %}

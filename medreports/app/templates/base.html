@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}{{ PLATFORM }}{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head><body>
+<div class="top"><a class="brand" href="{{ url_for(home) }}">{{ PLATFORM }}</a><span class="sp"></span>
+{% if me %}<a href="{{ url_for('common.notifications') }}">الإشعارات{% if unread %} ({{ unread }}){% endif %}</a>
+<a href="{{ url_for('common.account') }}">{{ me['name'] }}</a>
+<form method="post" action="{{ url_for('public.logout') }}">{{ m.csrf() }}<button>خروج</button></form>
+{% else %}<a href="{{ url_for('public.results') }}">استلام النتيجة</a><a href="{{ url_for('public.login') }}">دخول الموظفين</a>{% endif %}</div>
+{% if me and nav %}<div class="layout"><nav class="side">{% for ep,label in nav %}<a href="{{ url_for(ep) }}" class="{{ 'on' if request.endpoint==ep }}">{{ label }}</a>{% endfor %}</nav><main class="main">{% else %}<div class="wrap">{% endif %}
+{% for c,msg in get_flashed_messages(with_categories=true) %}<div class="flash {{ c }}">{{ msg }}</div>{% endfor %}
+{% block content %}{% endblock %}
+{% if me and nav %}</main></div>{% else %}</div>{% endif %}
+<script src="{{ url_for('static', filename='app.js') }}"></script></body></html>

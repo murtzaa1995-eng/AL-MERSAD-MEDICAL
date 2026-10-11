@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% macro settle(kind, row) %}{% if row['balance']>0 %}<form method="post" action="{{ url_for('admin.settle') }}" class="bar" style="margin:0" data-confirm="تأكيد تسجيل الدفع؟">{{ m.csrf() }}
+<input type="hidden" name="party_type" value="{{ kind }}"><input type="hidden" name="party_id" value="{{ row['id'] }}">
+<input name="amount" type="number" min="1" max="{{ row['balance'] }}" value="{{ row['balance'] }}" style="width:120px"><input name="note" placeholder="ملاحظة" style="width:110px"><button class="btn sm ok">تم دفع المبلغ</button></form>{% else %}<span class="mut">مصفّر ✓</span>{% endif %}{% endmacro %}
+{% block content %}<h1>الجرد المالي</h1>
+<form method="get" class="bar"><input type="month" name="month" value="{{ month }}" style="width:auto">
+<select name="hospital" style="width:auto"><option value="">كل المستشفيات</option>{% for h in hs %}<option value="{{ h['id'] }}" {{ 'selected' if h['id']==hf }}>{{ h['name'] }}</option>{% endfor %}</select>
+<select name="doctor" style="width:auto"><option value="">كل الأطباء</option>{% for d in ds %}<option value="{{ d['id'] }}" {{ 'selected' if d['id']==df }}>{{ d['name'] }}</option>{% endfor %}</select><button class="btn sm">تصفية</button></form>
+<div class="grid"><div class="stat"><b>{{ tot['rev']|money }}</b><span>إيرادات الشهر</span></div><div class="stat"><b>{{ tot['dues']|money }}</b><span>مستحقات الأطباء</span></div>
+<div class="stat"><b>{{ (tot['rev']-tot['dues'])|money }}</b><span>صافي الإدارة</span></div>
+<div class="stat"><b>{{ direct['n'] }} / {{ direct['t']|money }}</b><span>المرضى المباشرون (مكتمل)</span></div><div class="stat"><b>{{ paid_online['n'] }} / {{ paid_online['t']|money }}</b><span>مدفوعات إلكترونية</span></div></div>
+<h2>المستشفيات والمراكز</h2><div class="scroll"><table><tr><th>المؤسسة</th><th>فحوصات الشهر</th><th>مبلغ الشهر</th><th>المستحق الكلي</th><th>المدفوع</th><th>المتبقي</th><th>تسجيل دفع</th></tr>
+{% for r in hrows %}<tr><td>{{ r['name'] }}</td><td>{{ r['count'] }}</td><td>{{ r['month_total']|money }}</td><td>{{ r['accrued']|money }}</td><td>{{ r['paid']|money }}</td><td><b>{{ r['balance']|money }}</b></td><td>{{ settle('hospital', r) }}</td></tr>{% endfor %}</table></div>
+<h2>الأطباء</h2><div class="scroll"><table><tr><th>الطبيب</th><th>تقارير الشهر</th><th>مبلغ الشهر</th><th>المستحق الكلي</th><th>المدفوع</th><th>المتبقي</th><th>تسجيل دفع</th></tr>
+{% for r in drows %}<tr><td>{{ r['name'] }}</td><td>{{ r['count'] }}</td><td>{{ r['month_total']|money }}</td><td>{{ r['accrued']|money }}</td><td>{{ r['paid']|money }}</td><td><b>{{ r['balance']|money }}</b></td><td>{{ settle('doctor', r) }}</td></tr>{% endfor %}</table></div>
+<p class="hint">إذا دُفع جزء فقط: اكتب المبلغ المدفوع في الخانة ويبقى الباقي في الحساب. المبلغ المدفوع يُخصم من المتبقي ولا يمس المستحق الكلي.</p>
+<h2>آخر الدفعات المسجلة</h2><div class="scroll"><table><tr><th>الوقت</th><th>الجهة</th><th>المبلغ</th><th>ملاحظة</th></tr>{% for s in recent %}<tr><td>{{ s['created_at'] }}</td><td>{{ s['pname'] }} ({{ 'مستشفى' if s['party_type']=='hospital' else 'طبيب' }})</td><td>{{ s['amount']|money }}</td><td>{{ s['note'] or '' }}</td></tr>{% endfor %}</table></div>{% endblock %}

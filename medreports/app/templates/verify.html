@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block content %}<div class="card" style="max-width:420px;margin:auto"><h1>رمز التحقق</h1>
+<p>أرسلنا رمزاً إلى الرقم {{ masked }}.</p>{% if err %}<div class="flash error">{{ err }}</div>{% endif %}
+<form method="post" action="{{ url_for('public.verify') }}">{{ m.csrf() }}<input type="hidden" name="next" value="{{ nxt }}">
+<label>الرمز (6 أرقام)</label><input name="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required><p><button class="btn">تحقق</button></p></form></div>{% endblock %}

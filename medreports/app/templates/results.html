@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block content %}<h1>استلام النتيجة</h1>
+{% if phone %}<div class="card"><p>تم التحقق من الرقم <b>{{ phone[-4:] }}…</b> (الجلسة 10 دقائق).</p>
+{% for o in rows %}<p><a href="{{ url_for('public.result', token=o['token']) }}">{{ o['ref'] }} — {{ o['exam_name'] }} — {{ o['completed_at'] }}</a></p>{% else %}<p class="mut">لا توجد نتائج جاهزة لهذا الرقم.</p>{% endfor %}</div>
+{% else %}<form method="post" action="{{ url_for('public.otp') }}" class="card">{{ m.csrf() }}{{ m.field('phone','رقم الموبايل','','tel',true,'سيصلك رمز تحقق') }}<p><button class="btn">إرسال رمز التحقق</button></p></form>{% endif %}{% endblock %}

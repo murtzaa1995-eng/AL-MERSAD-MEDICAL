@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block content %}<h1>{{ o['exam_name'] }} — {{ o['ref'] }}</h1>
+<div class="card"><p>{{ m.badge(o['status']) }} — {{ o['hospital_name'] or 'مريض مباشر' }}</p>
+<p>المريض: <b>{{ o['patient_name'] }}</b> — {{ o['age'] or '' }} {{ o['sex'] or '' }}</p>
+<p>الجهاز: {{ o['device'] or '—' }} | البروتوكول: {{ o['protocol'] or '—' }} | الصبغة: {{ o['contrast'] or '—' }} | الطبيب المُرسل: {{ o['referring_doctor'] or '—' }}</p>
+<h2>المعلومات السريرية</h2><div class="pre">{{ o['clinical_info'] or '—' }}</div></div>
+<div class="card"><h2 style="margin-top:0">الصور والملفات</h2><div class="imgs">
+{% for f in files if f['stored_name'].rsplit('.',1)[-1] in ('png','jpg','jpeg','gif','webp') %}<a href="{{ url_for('common.file', fid=f['id']) }}" target="_blank"><img src="{{ url_for('common.file', fid=f['id']) }}" alt=""></a>{% endfor %}</div>
+{% for f in files if f['stored_name'].rsplit('.',1)[-1] not in ('png','jpg','jpeg','gif','webp') %}<div><a href="{{ url_for('common.file', fid=f['id']) }}">{{ f['original_name'] }}</a></div>{% endfor %}</div>
+{% if o['status']=='awaiting_doctor' %}<form method="post" action="{{ url_for('doctor.start', oid=o['id']) }}">{{ m.csrf() }}<button class="btn ok">بدء القراءة</button></form>
+{% elif o['doctor_id']==d['id'] and o['status']=='reading' %}<a class="btn" href="{{ url_for('doctor.editor', oid=o['id']) }}">كتابة التقرير</a>
+<form method="post" action="{{ url_for('doctor.release', oid=o['id']) }}" style="display:inline" data-confirm="إعادة الفحص إلى قائمة الانتظار؟">{{ m.csrf() }}<button class="btn sec">إعادة للقائمة</button></form>
+{% elif o['doctor_id']==d['id'] %}<a class="btn" href="{{ url_for('common.report', oid=o['id']) }}">عرض التقرير</a> <a class="btn sec" href="{{ url_for('doctor.editor', oid=o['id']) }}">تصحيح موثق</a>{% endif %}{% endblock %}

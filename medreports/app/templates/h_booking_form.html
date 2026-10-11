@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block content %}<h1>حجز / فحص جديد</h1>
+<form method="post" class="card">{{ m.csrf() }}{{ m.field('name','اسم المريض',f.get('name'),'text',true) }}
+<div class="row"><div>{{ m.field('phone','رقم الموبايل',f.get('phone'),'tel',true) }}</div><div>{{ m.field('age','العمر',f.get('age'),'number') }}</div>
+<div><label>الجنس</label><select name="sex"><option value="">—</option><option>ذكر</option><option>أنثى</option></select></div></div>
+<label>معلومات المريض</label><textarea name="clinical_info">{{ f.get('clinical_info','') }}</textarea>
+<p><button class="btn" name="action" value="save">حفظ الحجز وإصدار الورقة</button> <button class="btn sec" name="action" value="continue">حفظ ومتابعة إكمال الفحص</button></p></form>{% endblock %}

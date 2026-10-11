@@ -1,0 +1,19 @@
+{% extends 'base.html' %}{% block content %}<h1>{{ 'تعديل مستشفى/مركز' if h else 'إضافة مستشفى/مركز' }}</h1>
+<form method="post" enctype="multipart/form-data" class="card">{{ m.csrf() }}
+<div class="row"><div>{{ m.field('name','اسم المؤسسة',v.get('name'),'text',true) }}</div><div>{{ m.field('phone','رقم الموبايل',v.get('phone')) }}</div></div>
+<div class="row"><div>{{ m.field('email','البريد الإلكتروني (بيانات الدخول)',v.get('email'),'email',true) }}</div><div>{{ m.field('password','كلمة السر','','password',not h,'عند التعديل: اتركها فارغة لعدم التغيير') }}</div></div>
+{{ m.field('address','العنوان',v.get('address')) }}
+<label>الشعار / اللوغو</label>{% if h and h['logo'] %}<img src="{{ url_for('common.media', name=h['logo']) }}" style="max-height:60px"><br>{% endif %}<input type="file" name="logo" accept="image/*">
+<label>تعليمات استلام النتيجة</label><textarea name="receive_notes">{{ v.get('receive_notes') or '' }}</textarea>
+<h2>قالب التقرير الخاص بالمستشفى</h2>
+<label>ترويسة التقرير</label><textarea name="tpl_header">{{ v.get('tpl_header') or '' }}</textarea>
+<label>النص الافتراضي في محرر الطبيب</label><textarea name="tpl_body">{{ v.get('tpl_body') or '' }}</textarea>
+<label>تذييل التقرير</label><textarea name="tpl_footer">{{ v.get('tpl_footer') or '' }}</textarea>
+<label>طريقة نشر التقرير بعد اعتماد الطبيب</label><select name="publish_mode">
+<option value="auto" {{ 'selected' if v.get('publish_mode','auto')=='auto' }}>نشر تلقائي للمريض</option>
+<option value="hospital_approval" {{ 'selected' if v.get('publish_mode')=='hospital_approval' }}>إرسال للمستشفى أولاً للموافقة على النشر</option></select>
+<label><input type="checkbox" name="active" {{ 'checked' if (not h) or v.get('active') }}> الحساب مفعّل</label>
+<h2>أسعار الفحوصات لهذه المؤسسة</h2><div class="hint">اتركه فارغاً لاستخدام السعر الأساسي.</div>
+<div class="scroll"><table><tr><th>الفحص</th><th>السعر الأساسي</th><th>سعر المؤسسة</th></tr>
+{% for e in types %}<tr><td>{{ MODALITIES[e['modality']] }} - {{ e['region'] }}</td><td>{{ e['base_price']|money }}</td><td><input name="price_{{ e['id'] }}" type="number" min="0" value="{{ prices.get(e['id'],'') }}"></td></tr>{% endfor %}</table></div>
+<p><button class="btn">حفظ</button></p></form>{% endblock %}
